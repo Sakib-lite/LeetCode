@@ -11,23 +11,32 @@
  * @return {boolean}
  */
 
-const removeBackspace = function (string) {
-  const result = [];
-  for (let p = 0; p < string.length; p++) {
-    if (string[p] !== '#') result.push(string[p]);
-    else result.pop();
-  }
-  return result;
-};
-
 var backspaceCompare = function (S, T) {
-  const str1 = removeBackspace(S);
-  const str2 = removeBackspace(T);
-  if (str1.length !== str2.length) return false;
-  else {
-    for (let p = 0; p < str1.length; p++) {
-      if (str1[p] !== str2[p]) {
-        return false;
+  let p1 = S.length - 1,
+    p2 = T.length - 1;
+  while (p1 >= 0 || p2 >= 0) {
+    if (S[p1] === '#' || T[p2] === '#') {
+      if (S[p1] === '#') {
+        let backspace = 2;
+        while (backspace > 0) {
+          p1--;
+          backspace--;
+          if (S[p1] === '#') backspace += 2;
+        }
+      }
+      if (T[p2] === '#') {
+        let backspace = 2;
+        while (backspace > 0) {
+          p2--;
+          backspace--;
+          if (T[p2] === '#') backspace += 2;
+        }
+      }
+    } else {
+      if (S[p1] !== T[p2]) return false;
+      else {
+        p1--;
+        p2--;
       }
     }
   }
