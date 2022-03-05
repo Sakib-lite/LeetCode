@@ -11,18 +11,15 @@
  */
 var lengthOfLongestSubstring = function (s) {
   if (s.length <= 1) return s.length;
-  let longest = 0;
-  for (let i = 0; i < s.length; i++) {
-    let charHashMap = {},
-      currentLength = 0;
-    for (let j = i; j < s.length; j++) {
-      let currentChar = s[j];
-      if (!charHashMap[currentChar]) {
-        currentLength++;
-        charHashMap[currentChar] = true;
-        longest = Math.max(longest, currentLength);
-      } else break;
-    }
+  let longest = 0,
+    charHashMap = {},
+    left = 0;
+  for (let right = 0; right < s.length; right++) {
+    const currentChar = s[right];
+    const existingChar = charHashMap[currentChar];
+    if (existingChar >= left) left = existingChar + 1;
+    charHashMap[currentChar] = right;
+    longest = Math.max(longest, right - left + 1);
   }
   return longest;
 };
