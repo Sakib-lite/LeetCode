@@ -19,28 +19,29 @@ function swapNumbers(arr, first, second) {
 
 function pivotFunction(arr, pivot = 0, end = arr.length - 1) {
   let swapIndex = pivot;
-  for (let i = pivot + 1; i <= end; i++) {
-    swapIndex++;
-    swapNumbers(arr, i, swapIndex, i);
+  for (let i = pivot; i <= end; i++) {
+    if (arr[i] < arr[pivot]) {
+      swapIndex++;
+      swapNumbers(arr, swapIndex, i);
+    }
   }
+  swapNumbers(arr, pivot, swapIndex);
   return swapIndex;
 }
-function quickSort(arr, left = 0, right = arr.length - 1) {
-  if (left < right) {
+function quickSelect(arr, left, right, indexToFind) {
+  if (left <= right) {
     let pivot = pivotFunction(arr, left, right);
-    quickSort(arr, left, pivot - 1);
-    quickSort(arr, pivot + 1, right);
+    if (pivot === indexToFind) {
+      return arr[indexToFind];
+    } else if (indexToFind < pivot) {
+      return quickSelect(arr, left, pivot - 1, indexToFind);
+    } else {
+      return quickSelect(arr, pivot + 1, right, indexToFind);
+    }
   }
-  return arr;
 }
 var findKthLargest = function (nums, k) {
-  nums = nums.sort((x, y) => x - y);
-  let arr = quickSort(nums);
-  let j = nums.length - 1 - k;
-  let largest = nums[nums.length - 1];
-  for (let i = nums.length - 1; i > j; i--) {
-    largest = Math.min(largest, nums[i]);
-  }
-  return largest;
+  let j = nums.length - k;
+  return quickSelect(nums, 0, nums.length - 1, j);
 };
 // @lc code=end
