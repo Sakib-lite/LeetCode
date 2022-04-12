@@ -17,23 +17,15 @@
  * @param {TreeNode} root
  * @return {number[]}
  */
+const preorderDfs = function (node, currentLevel, result) {
+  if (!node) return;
+  if (currentLevel >= result.length) result.push(node.val);
+  if (node.right) preorderDfs(node.right, currentLevel + 1, result);
+  if (node.left) preorderDfs(node.left, currentLevel + 1, result);
+};
 var rightSideView = function (root) {
-  let result = [],
-    queue = [];
-  if (!root) return result;
-  queue.push(root);
-  while (queue.length) {
-    let count = 0,
-      length = queue.length,
-      currentNode;
-    while (count < length) {
-      currentNode = queue.shift();
-      if (currentNode.left) queue.push(currentNode.left);
-      if (currentNode.right) queue.push(currentNode.right);
-      count++;
-    }
-    result.push(currentNode.val);
-  }
+  let result = [];
+  preorderDfs(root, 0, result);
   return result;
 };
 // @lc code=end
