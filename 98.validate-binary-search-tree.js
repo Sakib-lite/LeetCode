@@ -18,20 +18,16 @@
  * @return {boolean}
  */
 
-const containsNodeDfs = (node, min, max) => {
-  if (node.val <= min || node.val >= max) return false;
-  if (node.left) {
-    if (!containsNodeDfs(node.left, min, node.val)) return false;
-  }
-  if (node.right) {
-    if (!containsNodeDfs(node.right, node.val, max)) return false;
-  }
-  return true;
-};
+ var isValidBST = function(root) {
+  return helper(root, null, null);
+}
 
-var isValidBST = function (root) {
-  if (!root) return true;
-  return containsNodeDfs(root, -Infinity, Infinity);
-};
+function helper(node, low, high) {
+  if (node === null) return true;
+  const val = node.val;
+  if ((low !== null && val <= low) || (high !== null && val >= high)) 
+      return false;
+  return helper(node.right, val, high) && helper(node.left, low, val);
+}
 
 // @lc code=end
