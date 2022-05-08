@@ -25,23 +25,23 @@ class ListNode {
 }
 
 var mergeTwoLists = function (list1, list2) {
-  let newNode = new ListNode();
-  const start = newNode;
-  
+  let newNode = new ListNode(0);
+  let prev = newNode;
+
   while (list1 && list2) {
     if (list1.val <= list2.val) {
-      newNode.next = new ListNode(list1.val, null);
+      prev.next = list1;
+      prev = list1;
       list1 = list1.next;
     } else {
-      newNode.next = new ListNode(list2.val, null);
+      prev.next = list2;
+      prev = list2;
       list2 = list2.next;
     }
-    newNode = newNode.next;
   }
-  newNode.next = list1 ? list1 : list2;
+  if (!list1) prev.next = list2;
+  if (!list2) prev.next = list1;
 
-  return start.next;
+  return newNode.next;
 };
-mergeTwoLists([1, 2, 4], [1, 3, 4]);
-
 // @lc code=end
