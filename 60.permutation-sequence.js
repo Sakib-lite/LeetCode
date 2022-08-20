@@ -11,26 +11,23 @@
  * @return {string}
  */
 
-const permute = (str, combinations, res = '') => {
-  if (!str.length) {
-    combinations.push(res);
-  }
-  for (let i = 0; i < str.length; i++) {
-    let remainingStr = str.substr(0, i) + str.substr(i + 1);
-    permute(remainingStr, combinations, res + str.substr(i, 1));
-  }
-  return combinations;
-};
-
 var getPermutation = function (n, k) {
-  let string = '';
+  const nums = [];
   for (let i = 1; i <= n; i++) {
-    i = i.toString();
-    string += i;
+    nums.push(i);
   }
-  const arr = [];
-  permute(string, arr);
-  return arr[k - 1];
-};
 
+  let factorial = [1];
+  for (let i = 1; i <= n; i++) factorial[i] = i * factorial[i - 1];
+
+  let res = '';
+  console.log(nums);
+  for (let i = n; i > 0; i--) {
+    index = Math.ceil(k / factorial[i - 1]);
+    res += nums[index - 1];
+    nums.splice(index - 1, 1);
+    k -= factorial[i - 1] * (index - 1);
+  }
+  return res;
+};
 // @lc code=end
