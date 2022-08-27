@@ -9,44 +9,29 @@
  * @param {character[][]} matrix
  * @return {number}
  */
-var largestRectangleArea = function (heights) {
-  let maxArea = 0,
-    stack = [];
-  heights = [0].concat(heights).concat([0]);
-
-  for (let i = 0; i < heights.length; i++) {
-    while (stack && heights[stack[stack.length - 1]] > heights[i]) {
-      let bar = stack.pop();
-      maxArea = Math.max(
-        maxArea,
-        heights[bar] * (i - stack[stack.length - 1] - 1)
-      );
-    }
-
-    stack.push(i);
-  }
-  return maxArea;
-};
 
 var maximalRectangle = function (matrix) {
-  let max = 0;
-  for (let i = 0; i < 1; i++) {
-    for (let j = 0; j < matrix[i].length; j++) {
-      matrix[i][j] = Number(matrix[i][j]);
+  let maxArea = 0;
+  const ROWS = matrix.length;
+  const COLS = matrix[0].length;
+  const dp = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < COLS; col++) {
+      if (row === 0) dp[row][col] = matrix[row][col] === '1' ? 1 : 0;
+      else dp[row][col] = matrix[row][col] == '1' ? dp[row - 1][col] + 1 : 0;
+
+      let minHeight = dp[row][col];
+
+      for (let i = col; i >= 0; i--) {
+        if (minHeight === 0) continue;
+        if (dp[row][i] < minHeight) minHeight = dp[row][i];
+        maxArea = Math.max(maxArea, minHeight * (col - i + 1));
+      }
     }
   }
 
-  for (let i = 0; i < matrix[0].length; i++) {
-    for (let j = 1; j < matrix.length; j++) {
-      if (matrix[j][i] !== '0')
-        matrix[j][i] = Number(matrix[j][i]) + Number(matrix[j - 1][i]);
-    }
-  }
-  for (let i of matrix) {
-    size = largestRectangleArea(i);
-    max = Math.max(max, size);
-  }
-  return max;
+  return maxArea;
 };
 
 // @lc code=end
