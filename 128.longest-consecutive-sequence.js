@@ -1,0 +1,27 @@
+/*
+ * @lc app=leetcode id=128 lang=javascript
+ *
+ * [128] Longest Consecutive Sequence
+ */
+
+// @lc code=start
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestConsecutive = function (nums) {
+  if (nums.length === 0) return 0;
+  nums = nums.sort((a, b) => a - b);
+  let max = 1,
+    count = 1;
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] - nums[i - 1] == 1) {
+      count++;
+      max = Math.max(max, count);
+    } else if (nums[i] === nums[i - 1]) continue;
+      else count = 1;
+  }
+  return max;
+};
+// @lc code=end
