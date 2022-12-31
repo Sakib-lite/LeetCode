@@ -12,20 +12,19 @@
 
 var productExceptSelf = function (nums) {
   let res = [];
-
-  const add = (index) => {
-    let temp = 1;
-    for (let i = 0; i < nums.length; i++) {
-      if (index === i) continue;
-      temp *= nums[i];
-    }
-    return temp;
-  };
+  let left = 1;
+  let right = 1;
 
   for (let i = 0; i < nums.length; i++) {
-    res[i] = add(i);
+    res[i] = left;
+    left *= nums[i];
   }
+
+  for (let i = nums.length - 1; i >= 0; i--) {
+    res[i] *= right;
+    right *= nums[i];
+  }
+
   return res;
 };
-
 // @lc code=end
