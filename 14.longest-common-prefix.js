@@ -11,14 +11,20 @@
  */
 var longestCommonPrefix = function (strs) {
   if (strs.length === 0) return '';
-  const sortedWords = strs.sort((a, b) => b.length - a.length);
-  const shortestStr = sortedWords.pop();
+  strs.sort((a, b) => b.length - a.length);
+  const shortestStr = strs.pop();
   let i = 0;
   for (i; i <= shortestStr.length; i++) {
     const prefix = shortestStr.substring(0, i + 1);
-    if (!strs.every((s) => s.startsWith(prefix))) break;
+    let allMatch = true;
+    for (const s of strs) {
+      if (!s.startsWith(prefix)) {
+        allMatch = false;
+        break;
+      }
+    }
+    if (!allMatch) break;
   }
   return shortestStr.substring(0, i);
 };
-longestCommonPrefix(['flower', 'flow', 'flight']);
 // @lc code=end
