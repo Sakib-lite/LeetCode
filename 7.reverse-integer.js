@@ -10,14 +10,18 @@
  * @return {number}
  */
 var reverse = function (x) {
-  let reverse = 0,
-    lastDigit = 0;
-  while (x !== 0) {
-    lastDigit = x % 10;
-    x = parseInt(x / 10);
-    reverse = reverse * 10 + lastDigit;
+  const isPostive = x >= 0 ? true : false;
+  let revNum = 0;
+  x = Math.abs(x);
+  while (x > 0) {
+    const rem = x % 10;
+    revNum = revNum * 10 + rem;
+    x = Math.floor(x / 10);
   }
-  if (reverse < Math.pow(-2, 31) || reverse > Math.pow(2, 31) - 1) return 0;
-  return reverse;
+
+  revNum = isPostive ? revNum : -revNum;
+  if (revNum > Math.pow(2, 31) - 1 || revNum < Math.pow(-2, 31)) return 0;
+
+  return revNum;
 };
 // @lc code=end
