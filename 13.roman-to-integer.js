@@ -10,13 +10,13 @@
  * @return {number}
  */
 var romanToInt = function (s) {
-  const list = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+  const symbols = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
   let result = 0;
-  s.split('').forEach((num, i) => {
-    if (list[num] < list[s[i + 1]]) result -= list[num];
-    else result += list[num];
-  });
+  for (let i = 0; i < s.length; i++) {
+    const current = s[i];
+    if (symbols[current] < symbols[s[i + 1]]) result -= symbols[current];
+    else result += symbols[current];
+  }
   return result;
 };
-romanToInt('MCMXCIV'); // 1000+900++90+4
 // @lc code=end
