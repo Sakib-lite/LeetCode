@@ -25,23 +25,22 @@ class ListNode {
 }
 
 var mergeTwoLists = function (list1, list2) {
-  let newNode = new ListNode(0);
-  let prev = newNode;
+  let newNode = new ListNode(Infinity),
+    dummy = newNode;
 
   while (list1 && list2) {
     if (list1.val <= list2.val) {
-      prev.next = list1;
-      prev = list1;
+      dummy.next = list1;
       list1 = list1.next;
     } else {
-      prev.next = list2;
-      prev = list2;
+      dummy.next = list2;
       list2 = list2.next;
     }
+    dummy = dummy.next;
   }
-  if (!list1) prev.next = list2;
-  if (!list2) prev.next = list1;
+  dummy.next = list1 ? list1 : list2;
 
   return newNode.next;
 };
+
 // @lc code=end
