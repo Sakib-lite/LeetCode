@@ -7,8 +7,8 @@
 -- @lc code=start
 # Write your MySQL query statement below
 
-select coalesce((select distinct salary from Employee order by salary desc limit 1 offset 1), null) as SecondHighestSalary  ;
+SELECT COALESCE((SELECT max(salary)  from Employee WHERE salary < (SELECT max(salary) from Employee)),null) as SecondHighestSalary
 
-
+--  subquery returns the maximum salary, which was excluded from the query later
 -- @lc code=end
 
