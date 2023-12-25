@@ -14,19 +14,18 @@
  * @return {number}
  */
 var maxScore = function (s) {
-  let max = 0;
+  let maxZeros = 0;
   let sumOne = 0;
   let sumZero = 0;
+  let len = s.length;
 
-  for (let i = 0; i < s.length; i++) {
-    sumOne += +s[i];
-  }
-
-  for (let i = 0; i < s.length - 1; i++) {
+  for (let i = 0; i < len - 1; i++) {
     if (s[i] === "0") sumZero++;
-    else sumOne--;
-    max = Math.max(max, sumZero + sumOne);
+    else sumOne++;
+    maxZeros = Math.max(maxZeros, sumZero - sumOne);
   }
-  return max;
+
+  if (s[len - 1] === "1") sumOne++;
+  return maxZeros + sumOne;
 };
 // @lc code=end
