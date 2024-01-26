@@ -18,23 +18,24 @@
  * @return {number[][]}
  */
 var levelOrder = function (root) {
-  let result = [],
-    queue = [];
-    if(!root) return result;
-  queue.push(root);
-  while (queue.length) {
-    let length = queue.length,
-      currentLevelValue = [];
-    count = 0;
-    while (count < length) {
-      let currentNode = queue.shift();
-      currentLevelValue.push(currentNode.val);
-      if (currentNode.left) queue.push(currentNode.left);
-      if (currentNode.right) queue.push(currentNode.right);
-      count++;
-    }
-    result.push(currentLevelValue);
-  }
-  return result;
+  const hashTable = {};
+
+  const dfs = (node, level) => {
+    if (!node) return;
+
+    if (!hashTable[level]) hashTable[level] = [];
+    hashTable[level].push(node.val);
+
+    if (node.left) dfs(node.left, level + 1);
+    if (node.right) dfs(node.right, level + 1);
+  };
+
+  if (!root) return [];
+  hashTable[1] = [root.val];
+
+  if (root.left) dfs(root.left, 2);
+  if (root.right) dfs(root.right, 2);
+
+  return Object.values(hashTable);
 };
 // @lc code=end
